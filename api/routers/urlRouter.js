@@ -7,12 +7,11 @@ const path = require('path');
 module.exports = router;
 
 const BASE_URL = 'localhost:8080';
-const DATABASE_URL = 'https://api.jsonbin.it/bins/hvRVYJVX';
 
 router.put('/', (req, res) => {
 	const longUrl = req.body.url;
 	const urlObj = buildUrlObject(longUrl);
-	getDataFromDatabase();
+	addToDataBase(urlObj);
 	res.send(urlObj.shortUrl);
 });
 
@@ -29,6 +28,13 @@ function buildUrlObject(longUrl) {
 }
 
 async function getDataFromDatabase() {
-	const response = await axios.get(DATABASE_URL);
-	return response.data;
+	const data = fs.readFileSync('./api/database.json');
+	return JSON.parse(data);
+}
+
+async function addToDataBase(urlObject) {
+	let dbData = await getDataFromDatabase();
+
+	dbData.urls.push(urlObject);
+	fs.writeFileSync('./api/database.json', JSON.stringify(dbData));
 }
