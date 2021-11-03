@@ -18,12 +18,17 @@ router.put('/', (req, res) => {
 		if (!validUrl.isUri(longUrl)) {
 			throw { code: 400, msg: 'The URL that was provided is not valid' };
 		}
-		const urlObj = buildUrlObject(longUrl);
-		addToDataBase(urlObj);
-		res.send(urlObj.shortUrl);
+
+		let urlObj = isUrlExist(longUrl);
+		if (urlObj) {
+			res.send(urlObj.shortUrl);
+		} else {
+			urlObj = buildUrlObject(longUrl);
+			addToDataBase(urlObj);
+			res.send(urlObj.shortUrl);
+		}
 	} catch (error) {
-		// next(error);
-		console.log(error);
+		next(error);
 	}
 });
 
@@ -77,6 +82,16 @@ function isIdExist(id) {
 	for (const urlObj of data.urls) {
 		if (id === urlObj.id) {
 			return true;
+		}
+	}
+	return false;
+}
+
+function isUrlExist(longUrl) {
+	const data = getDataFromDatabase();
+	for (const urlObj of data.urls) {
+		if (longUrl === urlObj.longUrl) {
+			return urlObj;
 		}
 	}
 	return false;
