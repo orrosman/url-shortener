@@ -1,22 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const validUrl = require('valid-url');
+const validator = require('validator');
 const database = require('../database/database.js');
 const path = require('path');
 module.exports = router;
 
-router.put('/', (req, res) => {
-	try {
-		const longUrl = req.body.url;
-		if (!longUrl) {
-			throw { code: 400, msg: 'No URL was provided' };
-		}
-		if (!validUrl.isUri(longUrl)) {
-			throw { code: 400, msg: 'The URL that was provided is not valid' };
-		}
+router.put('/', (req, res, next) => {
+	const longUrl = req.body.url;
 
+	if (validator.isURL(longUrl)) {
 		let urlObj = database.isUrlExist(longUrl);
+
 		if (urlObj) {
 			res.send(urlObj.shortUrl);
 		} else {
@@ -24,7 +19,7 @@ router.put('/', (req, res) => {
 			database.addToDataBase(urlObj);
 			res.send(urlObj.shortUrl);
 		}
-	} catch (error) {
-		next(error);
+	} else {
+		next(400);
 	}
 });

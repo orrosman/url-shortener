@@ -3,10 +3,14 @@ const router = express.Router();
 const database = require('../database/database');
 module.exports = router;
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
 	const id = req.params.id;
 	const longUrl = getLongUrl(id);
-	return res.redirect(longUrl);
+	if (longUrl) {
+		res.redirect(longUrl);
+	} else {
+		next(404);
+	}
 });
 
 function getLongUrl(id) {
@@ -17,4 +21,5 @@ function getLongUrl(id) {
 			return urlObj.longUrl;
 		}
 	}
+	return false;
 }

@@ -28,7 +28,6 @@ function buildUrlObject(longUrl) {
 
 function addToDataBase(urlObject) {
 	let dbData = getData();
-	console.log(dbData);
 
 	dbData.urls.push(urlObject);
 	fs.writeFileSync('./api/database/database.json', JSON.stringify(dbData));
