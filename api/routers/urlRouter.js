@@ -15,6 +15,14 @@ router.put('/', (req, res) => {
 	res.send(urlObj.shortUrl);
 });
 
+router.get('/:id', async (req, res) => {
+	const id = req.params.id;
+	const longUrl = await getLongUrl(id);
+	// console.log(longUrl);
+	// return res.send('apple.com');
+	return res.redirect(longUrl);
+});
+
 function buildUrlObject(longUrl) {
 	const shortUrlId = uuidv4();
 
@@ -27,7 +35,7 @@ function buildUrlObject(longUrl) {
 	return urlObject;
 }
 
-async function getDataFromDatabase() {
+function getDataFromDatabase() {
 	const data = fs.readFileSync('./api/database.json');
 	return JSON.parse(data);
 }
@@ -37,4 +45,14 @@ async function addToDataBase(urlObject) {
 
 	dbData.urls.push(urlObject);
 	fs.writeFileSync('./api/database.json', JSON.stringify(dbData));
+}
+
+function getLongUrl(id) {
+	let data = getDataFromDatabase();
+
+	for (const urlObj of data.urls) {
+		if (id === urlObj.id) {
+			return urlObj.longUrl;
+		}
+	}
 }

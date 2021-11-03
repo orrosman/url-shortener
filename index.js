@@ -7,6 +7,7 @@ const path = require('path');
 const urlRouter = require('./api/routers/urlRouter');
 
 app.use(express.json());
+app.use('/', urlRouter);
 app.use('/api/shorturl/', urlRouter);
 
 app.listen(process.env.PORT || port, function () {
