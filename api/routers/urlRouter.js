@@ -21,8 +21,9 @@ router.put('/', (req, res) => {
 		const urlObj = buildUrlObject(longUrl);
 		addToDataBase(urlObj);
 		res.send(urlObj.shortUrl);
-	} catch {
-		next(error);
+	} catch (error) {
+		// next(error);
+		console.log(error);
 	}
 });
 
@@ -34,6 +35,11 @@ router.get('/:id', async (req, res) => {
 
 function buildUrlObject(longUrl) {
 	const shortUrlId = uuidv4();
+
+	//generate new id if id already exist
+	while (isIdExist(shortUrlId)) {
+		shortUrlId = uuidv4();
+	}
 
 	const urlObject = {
 		longUrl: longUrl,
@@ -64,4 +70,14 @@ function getLongUrl(id) {
 			return urlObj.longUrl;
 		}
 	}
+}
+
+function isIdExist(id) {
+	const data = getDataFromDatabase();
+	for (const urlObj of data.urls) {
+		if (id === urlObj.id) {
+			return true;
+		}
+	}
+	return false;
 }
