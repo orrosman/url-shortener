@@ -7,9 +7,10 @@ const path = require('path');
 module.exports = router;
 
 router.put('/', (req, res, next) => {
-	const longUrl = req.body.url;
+	let longUrl = req.body.url;
 
 	if (validator.isURL(longUrl)) {
+		longUrl = checkProtocol(longUrl);
 		let urlObj = database.isUrlExist(longUrl);
 
 		if (urlObj) {
@@ -23,3 +24,13 @@ router.put('/', (req, res, next) => {
 		next(400);
 	}
 });
+
+function checkProtocol(url) {
+	const hasProtocol = validator.isURL(url, { require_protocol: true });
+
+	if (hasProtocol) {
+		return url;
+	} else {
+		return `http://${url}`;
+	}
+}
