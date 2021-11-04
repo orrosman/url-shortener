@@ -1,11 +1,12 @@
 /** Manage the database **/
 const fs = require('fs');
+const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
 const BASE_URL = 'localhost:8080';
 
 function getData() {
-	const data = fs.readFileSync('./api/database/database.json');
+	const data = fs.readFileSync('./database/database.json');
 	return JSON.parse(data);
 }
 
@@ -30,7 +31,7 @@ function addToDataBase(urlObject) {
 	let dbData = getData();
 
 	dbData.urls.push(urlObject);
-	fs.writeFileSync('./api/database/database.json', JSON.stringify(dbData));
+	fs.writeFileSync('./database/database.json', JSON.stringify(dbData));
 }
 
 function isIdExist(id) {

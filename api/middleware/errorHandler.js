@@ -1,7 +1,6 @@
 module.exports = errorHandler;
 
 function errorHandler(error, res) {
-	console.log('in');
 	switch (error) {
 		case 400:
 			res.status(400);

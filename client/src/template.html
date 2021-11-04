@@ -10,6 +10,8 @@
 			integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 			crossorigin="anonymous"
 		/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+		<script type="module" src="index.js" defer></script>
 		<title>URL Shortener</title>
 	</head>
 	<body>
@@ -20,12 +22,17 @@
 		<div class="container">
 			<div class="input-group mb-3">
 				<input
+					id="url-input"
 					type="text"
 					class="form-control"
 					placeholder="Enter a URL to shorten"
 				/>
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary" type="button">
+					<button
+						id="url-button"
+						class="btn btn-outline-secondary"
+						type="button"
+					>
 						shorten
 					</button>
 				</div>

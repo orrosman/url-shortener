@@ -1,0 +1,1 @@
+(()=>{"use strict";const e=document.getElementById("url-button");console.log(e),document.addEventListener("click",(()=>{console.log("click")}))})();

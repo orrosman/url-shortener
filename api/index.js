@@ -11,6 +11,9 @@ const errorHandler = require('./middleware/errorHandler.js');
 app.use(express.json());
 app.use('/api/shorturl/', urlRouter);
 app.use('/', shortUrlRouter);
+app.get('/', function (req, res) {
+	res.sendFile(path.resolve('./dist/index.html'));
+});
 app.use(errorHandler);
 
 app.listen(process.env.PORT || port, function () {
