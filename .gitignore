@@ -1,2 +1,3 @@
 node_modules
 api/database/database.json
+client/dist

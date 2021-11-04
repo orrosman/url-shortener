@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
-const BASE_URL = 'localhost:8080';
+const BASE_URL = 'http://localhost:3000';
 
 function getData() {
 	const data = fs.readFileSync('./database/database.json');
@@ -20,7 +20,7 @@ function buildUrlObject(longUrl) {
 
 	const urlObject = {
 		longUrl: longUrl,
-		shortUrl: `${BASE_URL}/${shortUrlId}`,
+		shortUrl: `${BASE_URL}/short/${shortUrlId}`,
 		id: shortUrlId,
 	};
 
