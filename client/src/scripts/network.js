@@ -18,12 +18,26 @@ export async function generateShortUrl(longUrl) {
 export async function signUp(email, password) {
 	const data = JSON.stringify({
 		email: email,
-		password,
-		password,
+		password: password,
 	});
 	const response = await axios({
 		method: 'POST',
 		url: `${API_URL}/api/shorturl/signUp`,
+		data: data,
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+	return response.data;
+}
+export async function login(email, password) {
+	const data = JSON.stringify({
+		email: email,
+		password: password,
+	});
+	const response = await axios({
+		method: 'POST',
+		url: `${API_URL}/api/shorturl/login`,
 		data: data,
 		headers: {
 			'Content-Type': 'application/json',

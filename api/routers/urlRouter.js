@@ -12,6 +12,13 @@ router.post('/signUp', (req, res) => {
 	res.send(hasSucceeded);
 });
 
+router.post('/login', (req, res) => {
+	const { email, password } = req.body;
+	console.log(req.body);
+	const hasSucceeded = database.login(email, password);
+	res.send(hasSucceeded);
+});
+
 router.put('/', (req, res, next) => {
 	let longUrl = req.body.url;
 

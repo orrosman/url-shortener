@@ -1,5 +1,6 @@
 /** Manage the database **/
 const fs = require('fs');
+const { get } = require('http');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
@@ -85,6 +86,18 @@ function signUp(email, password) {
 	}
 }
 
+function login(email, password) {
+	const data = getData();
+
+	console.log(email);
+	for (const user of data.users) {
+		if (email === user.email && password === user.password) {
+			return email;
+		}
+	}
+	return false;
+}
+
 module.exports = {
 	getData,
 	isIdExist,
@@ -92,4 +105,5 @@ module.exports = {
 	buildUrlObject,
 	addToDataBase,
 	signUp,
+	login,
 };
