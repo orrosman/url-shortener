@@ -24,6 +24,7 @@ function buildUrlObject(longUrl) {
 		shortUrl: `${BASE_URL}/short/${shortUrlId}`,
 		id: shortUrlId,
 		redirects: 0,
+		dateCreated: new Date().toUTCString(),
 	};
 
 	return urlObject;
