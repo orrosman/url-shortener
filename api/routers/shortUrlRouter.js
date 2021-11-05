@@ -5,7 +5,7 @@ module.exports = router;
 
 router.get('/:id', async (req, res, next) => {
 	const id = req.params.id;
-	const longUrl = getLongUrl(id);
+	const longUrl = database.getLongUrl(id);
 
 	if (longUrl) {
 		res.redirect(longUrl);
@@ -14,22 +14,22 @@ router.get('/:id', async (req, res, next) => {
 	}
 });
 
-function getLongUrl(id) {
-	let data = database.getData();
-	//check in guests
-	for (const urlObj of data.guests) {
-		if (id === urlObj.id) {
-			return urlObj.longUrl;
-		}
-	}
+// function getLongUrl(id) {
+// 	let data = database.getData();
+// 	//check in guests
+// 	for (const urlObj of data.guests) {
+// 		if (id === urlObj.id) {
+// 			return urlObj.longUrl;
+// 		}
+// 	}
 
-	//check in users
-	for (const user of data.users) {
-		for (const urlObj of user.urls) {
-			if (id === urlObj.id) {
-				return urlObj.longUrl;
-			}
-		}
-	}
-	return false;
-}
+// 	//check in users
+// 	for (const user of data.users) {
+// 		for (const urlObj of user.urls) {
+// 			if (id === urlObj.id) {
+// 				return urlObj.longUrl;
+// 			}
+// 		}
+// 	}
+// 	return false;
+// }

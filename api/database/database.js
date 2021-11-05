@@ -137,13 +137,37 @@ function getUser(email) {
 	return false;
 }
 
+function getLongUrl(id) {
+	let data = getData();
+	//check in guests
+	for (const urlObj of data.guests) {
+		if (id === urlObj.id) {
+			urlObj.redirects++;
+			fs.writeFileSync('./database/database.json', JSON.stringify(data));
+			return urlObj.longUrl;
+		}
+	}
+
+	//check in users
+	for (const user of data.users) {
+		for (const urlObj of user.urls) {
+			if (id === urlObj.id) {
+				urlObj.redirects++;
+				fs.writeFileSync('./database/database.json', JSON.stringify(data));
+				return urlObj.longUrl;
+			}
+		}
+	}
+	return false;
+}
 module.exports = {
+	signUp,
+	login,
+	getUser,
 	getData,
 	isUrlIdExist,
 	isUrlExist,
 	buildUrlObject,
 	addUrlToDataBase,
-	signUp,
-	login,
-	getUser,
+	getLongUrl,
 };
