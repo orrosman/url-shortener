@@ -6,6 +6,12 @@ const database = require('../database/database.js');
 const path = require('path');
 module.exports = router;
 
+router.post('/signUp', (req, res) => {
+	const { email, password } = req.body;
+	const hasSucceeded = database.signUp(email, password);
+	res.send(hasSucceeded);
+});
+
 router.put('/', (req, res, next) => {
 	let longUrl = req.body.url;
 

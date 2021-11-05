@@ -53,6 +53,37 @@ function isUrlExist(longUrl) {
 	}
 	return false;
 }
+function isUserExist(email) {
+	const data = getData();
+	for (const user of data.users) {
+		if (email === user.email) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function createUser(email, password) {
+	const user = {
+		email: email,
+		password: password,
+		urls: [],
+	};
+	return user;
+}
+
+function signUp(email, password) {
+	if (isUserExist(email)) {
+		return false;
+	} else {
+		const newUser = createUser(email, password);
+		let data = getData();
+
+		data.users.push(newUser);
+		fs.writeFileSync('./database/database.json', JSON.stringify(data));
+		return true;
+	}
+}
 
 module.exports = {
 	getData,
@@ -60,4 +91,5 @@ module.exports = {
 	isUrlExist,
 	buildUrlObject,
 	addToDataBase,
+	signUp,
 };
