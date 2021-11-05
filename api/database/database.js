@@ -15,7 +15,7 @@ function buildUrlObject(longUrl) {
 	const shortUrlId = uuidv4();
 
 	//generate new id if id already exist
-	while (isIdExist(shortUrlId)) {
+	while (isUrlIdExist(shortUrlId)) {
 		shortUrlId = uuidv4();
 	}
 
@@ -23,33 +23,64 @@ function buildUrlObject(longUrl) {
 		longUrl: longUrl,
 		shortUrl: `${BASE_URL}/short/${shortUrlId}`,
 		id: shortUrlId,
+		redirects: 0,
 	};
 
 	return urlObject;
 }
 
-function addToDataBase(urlObject) {
-	let dbData = getData();
-
-	dbData.urls.push(urlObject);
-	fs.writeFileSync('./database/database.json', JSON.stringify(dbData));
+function addUrlToDataBase(urlObject, email) {
+	let data = getData();
+	if (isUserExist(email)) {
+		for (const user of data.users) {
+			if (email === user.email) {
+				user.urls.push(urlObject);
+				fs.writeFileSync('./database/database.json', JSON.stringify(data));
+			}
+		}
+	} else {
+		data.guests.push(urlObject);
+		fs.writeFileSync('./database/database.json', JSON.stringify(data));
+	}
 }
 
-function isIdExist(id) {
+function isUrlIdExist(id) {
 	const data = getData();
-	for (const urlObj of data.urls) {
+	//check in guests list
+	for (const urlObj of data.guests) {
 		if (id === urlObj.id) {
 			return true;
 		}
 	}
+
+	//check in users list
+	for (const user of data.users) {
+		for (const urlObj of user.urls) {
+			if (id === urlObj.id) {
+				return true;
+			}
+		}
+	}
+
 	return false;
 }
 
-function isUrlExist(longUrl) {
+function isUrlExist(longUrl, email) {
 	const data = getData();
-	for (const urlObj of data.urls) {
-		if (longUrl === urlObj.longUrl) {
-			return urlObj;
+
+	if (email != 'guest') {
+		const user = getUser(email);
+
+		for (const urlObj of user.urls) {
+			if (longUrl === urlObj.longUrl) {
+				return urlObj;
+			}
+		}
+	} else {
+		for (const urlObj of data.guests) {
+			if (longUrl === urlObj.longUrl) {
+				return urlObj;
+			}
 		}
 	}
 	return false;
@@ -82,14 +113,13 @@ function signUp(email, password) {
 
 		data.users.push(newUser);
 		fs.writeFileSync('./database/database.json', JSON.stringify(data));
-		return true;
+		return email;
 	}
 }
 
 function login(email, password) {
 	const data = getData();
 
-	console.log(email);
 	for (const user of data.users) {
 		if (email === user.email && password === user.password) {
 			return email;
@@ -97,13 +127,23 @@ function login(email, password) {
 	}
 	return false;
 }
+function getUser(email) {
+	const data = getData();
+	for (const user of data.users) {
+		if (email === user.email) {
+			return user;
+		}
+	}
+	return false;
+}
 
 module.exports = {
 	getData,
-	isIdExist,
+	isUrlIdExist,
 	isUrlExist,
 	buildUrlObject,
-	addToDataBase,
+	addUrlToDataBase,
 	signUp,
 	login,
+	getUser,
 };

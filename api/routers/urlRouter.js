@@ -14,23 +14,23 @@ router.post('/signUp', (req, res) => {
 
 router.post('/login', (req, res) => {
 	const { email, password } = req.body;
-	console.log(req.body);
 	const hasSucceeded = database.login(email, password);
 	res.send(hasSucceeded);
 });
 
 router.put('/', (req, res, next) => {
 	let longUrl = req.body.url;
+	const email = req.body.email;
 
 	if (validator.isURL(longUrl)) {
 		longUrl = checkProtocol(longUrl);
-		let urlObj = database.isUrlExist(longUrl);
+		let urlObj = database.isUrlExist(longUrl, email);
 
 		if (urlObj) {
 			res.send(urlObj.shortUrl);
 		} else {
 			urlObj = database.buildUrlObject(longUrl);
-			database.addToDataBase(urlObj);
+			database.addUrlToDataBase(urlObj, email);
 			res.send(urlObj.shortUrl);
 		}
 	} else {
