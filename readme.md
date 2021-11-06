@@ -4,7 +4,7 @@ In this project i made a website that generate a shorter version of a long URL.
 
 [Here's a link to the website](https://make-a-short-url.herokuapp.com/)
 
-![](assets\site_example.png)
+<img src="assets/site_example.png">
 
 # Features
 
