@@ -32,17 +32,17 @@ loginButton.addEventListener('click', async () => {
 	}
 });
 
-// signupButton.addEventListener('click', async () => {
-// 	const email = document.getElementById('email').value;
-// 	const password = document.getElementById('password').value;
+signupButton.addEventListener('click', async () => {
+	const email = document.getElementById('email-signup').value;
+	const password = document.getElementById('password-signup').value;
 
-// 	const hasSucceeded = await network.signUp(email, password);
-// 	if (hasSucceeded) {
-// 		login(hasSucceeded);
-// 	} else {
-// 		console.log(hasSucceeded);
-// 	}
-// });
+	const hasSucceeded = await network.signUp(email, password);
+	if (hasSucceeded) {
+		login(hasSucceeded);
+	} else {
+		console.log(hasSucceeded);
+	}
+});
 
 function showUrl(url) {
 	const cardVisibility = shortUrlCard.classList;
