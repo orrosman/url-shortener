@@ -20,17 +20,6 @@ copyUrlButton.addEventListener('click', async () => {
 	copyUrl(url);
 });
 
-signupButton.addEventListener('click', async () => {
-	const email = document.getElementById('email').value;
-	const password = document.getElementById('password').value;
-
-	const hasSucceeded = await network.signUp(email, password);
-	if (hasSucceeded) {
-		login(hasSucceeded);
-	} else {
-		console.log(hasSucceeded);
-	}
-});
 loginButton.addEventListener('click', async () => {
 	const email = document.getElementById('email-login').value;
 	const password = document.getElementById('password-login').value;
@@ -42,6 +31,18 @@ loginButton.addEventListener('click', async () => {
 		console.log(hasSucceeded);
 	}
 });
+
+// signupButton.addEventListener('click', async () => {
+// 	const email = document.getElementById('email').value;
+// 	const password = document.getElementById('password').value;
+
+// 	const hasSucceeded = await network.signUp(email, password);
+// 	if (hasSucceeded) {
+// 		login(hasSucceeded);
+// 	} else {
+// 		console.log(hasSucceeded);
+// 	}
+// });
 
 function showUrl(url) {
 	const cardVisibility = shortUrlCard.classList;
