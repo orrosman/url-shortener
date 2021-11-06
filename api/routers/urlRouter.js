@@ -18,6 +18,12 @@ router.post('/login', (req, res) => {
 	res.send(hasSucceeded);
 });
 
+router.get('/stats', (req, res) => {
+	const user = req.headers.user;
+	const userData = database.getUserStats(user);
+	res.send(userData);
+});
+
 router.put('/', (req, res, next) => {
 	let longUrl = req.body.url;
 	const email = req.body.email;

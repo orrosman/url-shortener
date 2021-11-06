@@ -161,6 +161,21 @@ function getLongUrl(id) {
 	}
 	return false;
 }
+
+function getUserStats(user) {
+	const data = getData();
+
+	if (user === 'guest') {
+		return data.guests;
+	} else {
+		for (const userObj of data.users) {
+			if (user === userObj.email) {
+				return userObj.urls;
+			}
+		}
+		return false;
+	}
+}
 module.exports = {
 	signUp,
 	login,
@@ -171,4 +186,5 @@ module.exports = {
 	buildUrlObject,
 	addUrlToDataBase,
 	getLongUrl,
+	getUserStats,
 };
