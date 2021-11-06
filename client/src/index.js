@@ -1,5 +1,5 @@
 import * as network from './scripts/network.js';
-
+import style from '../src/styles.css';
 const urlButton = document.getElementById('url-button');
 const shortUrlCard = document.getElementById('short-url-card');
 const copyUrlButton = document.getElementById('copy-button');
@@ -8,11 +8,16 @@ const loginButton = document.getElementById('login-button');
 const statsButton = document.getElementById('stats-nav-link');
 
 urlButton.addEventListener('click', async () => {
-	event.preventDefault();
+	// event.preventDefault();
 	const urlInput = document.getElementById('url-input');
 
 	const longUrl = urlInput.value;
-	const shortUrl = await network.generateShortUrl(longUrl);
+	let user = localStorage.getItem('current_user');
+	if (!user) {
+		localStorage.setItem('current_user', 'guest');
+		user = 'guest';
+	}
+	const shortUrl = await network.generateShortUrl(longUrl, user);
 	showUrl(shortUrl);
 });
 

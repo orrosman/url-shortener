@@ -4,7 +4,7 @@ const { get } = require('http');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://make-a-short-url.herokuapp.com';
 
 function getData() {
 	const data = fs.readFileSync('./database/database.json');
@@ -71,7 +71,7 @@ function isUrlExist(longUrl, email) {
 
 	if (email != 'guest') {
 		const user = getUser(email);
-
+		console.log(user.urls);
 		for (const urlObj of user.urls) {
 			if (longUrl === urlObj.longUrl) {
 				return urlObj;

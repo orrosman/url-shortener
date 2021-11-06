@@ -1,9 +1,9 @@
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://make-a-short-url.herokuapp.com';
 
-export async function generateShortUrl(longUrl) {
+export async function generateShortUrl(longUrl, user) {
 	const data = JSON.stringify({
 		url: longUrl,
-		email: localStorage.getItem('current_user'),
+		email: user,
 	});
 	const response = await axios({
 		method: 'PUT',
