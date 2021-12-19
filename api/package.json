@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon index.js",
+		"start": "node index.js",
+		"dev": "nodemon index.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
@@ -18,9 +19,11 @@
 	},
 	"homepage": "https://github.com/orrosman/url-shortener#readme",
 	"dependencies": {
+		"axios": "^0.24.0",
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
-		"uuid": "^8.3.2"
+		"uuid": "^8.3.2",
+		"validator": "^13.7.0"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.14"
